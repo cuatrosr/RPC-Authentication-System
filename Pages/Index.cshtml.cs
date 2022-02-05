@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using RazorPagesUser.Models;
 
 namespace RPCAuthenticationSystem.Pages
 {
@@ -11,6 +12,9 @@ namespace RPCAuthenticationSystem.Pages
         {
             _logger = logger;
         }
+
+        [BindProperty]
+        public User User { get; set; }
 
         public void OnGet()
         {
