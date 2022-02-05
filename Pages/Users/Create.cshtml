@@ -15,13 +15,18 @@
 			<div class="form-group">
 				<label asp-for="User.Username" class="control-label"></label>
 				<input asp-for="User.Username" class="form-control" />
-				<span asp-validation-for="User.Username" class="text-danger"></span>
+				<span asp-validation-for="VerifyUsername" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="User.Password" class="control-label"></label>
-				<input asp-for="User.Password" class="form-control" />
-				<span asp-validation-for="User.Password" class="text-danger"></span>
+                <input asp-for="User.Password" class="form-control" id="passw" />
+                <span asp-validation-for="User.Password" class="text-danger"></span>
 			</div>
+			 <div class="form-group">
+                <label>Verify Password</label>
+                <input asp-for="VerifyPassword" class="form-control" id="conf-passw" />
+                <span class="text-danger"></span>
+            </div>
 			<div class="form-group">
 				<label asp-for="User.BirthDate" class="control-label"></label>
 				<input asp-for="User.BirthDate" class="form-control" />
@@ -51,5 +56,15 @@
 @section Scripts {
     @{
 		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+		<script>function VerifyPassword() {
+            let password = document.getElementById("passw").value;
+            let cnfrmPassword = document.getElementById("conf-passw").value;
+            if (cnfrmPassword.length != 0) {
+                if (password != cnfrmPassword)
+                    alert("Password don't match!");
+            } else
+                alert("Password can't be empty!");
+        }</script>
 	}
 }

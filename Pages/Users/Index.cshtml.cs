@@ -20,11 +20,41 @@ namespace RPCAuthenticationSystem.Pages.Users
             _context = context;
         }
 
-        public IList<User> User { get; set; }
+        [BindProperty]
+        public string SearchUsername { get; set; }
+
+        [BindProperty]
+        public string SearchPassword { get; set; }
+
+
+        public new IList<User> User { get; set; }
 
         public async Task OnGetAsync()
         {
-            User = await _context.User.ToListAsync();
+            var TotalUsers = from m in _context.User
+                             select m;
+            var user = TotalUsers;
+            if (!string.IsNullOrEmpty(SearchUsername))
+            {
+                user = TotalUsers.Where(s => s.Username.Equals(SearchUsername));
+            }
+            User = await user.ToListAsync();
+            if (User.Count == 1)
+            {
+                if (User.ElementAt(0).Password.Equals(SearchPassword) && !string.IsNullOrEmpty(SearchPassword))
+                {
+                    ViewData["Message"] = User.ElementAt(0).Username;
+                    User = await TotalUsers.ToListAsync();
+                }
+                else
+                {
+                    Response.Redirect("../Index");
+                }
+            }
+            else
+            {
+                Response.Redirect("../Index");
+            }
         }
     }
 }

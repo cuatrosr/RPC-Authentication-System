@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using RazorPagesUser.Models;
+using Microsoft.Extensions.Logging;
 
 namespace RPCAuthenticationSystem.Pages
 {
@@ -10,16 +11,16 @@ namespace RPCAuthenticationSystem.Pages
         private readonly RazorPagesUsers.Data.RazorPagesUsersContext _context;
         private readonly ILogger<IndexModel> _logger;
 
-        public IndexModel(ILogger<IndexModel> logger, RazorPagesUsers.Data.RazorPagesUsersContext context)
+        public IndexModel(ILogger<IndexModel> logger, RazorPagesUsers.Data.RazorPagesUsersContext? context)
         {
             _logger = logger;
             _context = context;
         }
 
         [BindProperty]
-        public string Username { get; set; }
+        public string SearchUsername { get; set; }
         [BindProperty]
-        public string Password { get; set; }
+        public string SearchPassword { get; set; }
 
         public IActionResult OnGet()
         {
@@ -33,7 +34,7 @@ namespace RPCAuthenticationSystem.Pages
             {
                 return Page();
             }
-            var dbEntry = _context.User.FirstOrDefault(acc => acc.Username == Username);
+            var dbEntry = _context.User.FirstOrDefault(acc => acc.Username == SearchUsername);
             return RedirectToPage("Users/Index");
         }
     }
