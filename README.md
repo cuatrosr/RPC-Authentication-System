@@ -31,15 +31,15 @@ To run the web app you should follow these steps:
 
 4️⃣ Execute the following command to deploy your local data base
 
-bash
+```bash
 Update-Database
-
+```
 
 5️⃣ Run the project on the IDE or execute the following command on your CMD
 
-bash
+```bash
 dotnet run
-
+```
 
 ## **Documentation** 📷
 
