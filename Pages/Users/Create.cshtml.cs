@@ -11,7 +11,8 @@ using RazorPagesUsers.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace RPCAuthenticationSystem.Pages.Users
-{
+{ 
+    //Funca plis
     public class CreateModel : PageModel
     {
         private readonly RazorPagesUsers.Data.RazorPagesUsersContext _context;
