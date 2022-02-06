@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using RazorPagesUser.Models;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
 
 namespace RPCAuthenticationSystem.Pages
 {
@@ -17,10 +18,17 @@ namespace RPCAuthenticationSystem.Pages
             _context = context;
         }
 
+        public new IList<User> User { get; set; }
+        [TempData]
+        public string Message { get; set; }
         [BindProperty]
-        public string SearchUsername { get; set; }
+        [Required]
+        [DataType(DataType.Text)]
+        public string Username { get; set; }
+        [Required]
         [BindProperty]
-        public string SearchPassword { get; set; }
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
 
         public IActionResult OnGet()
         {
@@ -29,13 +37,27 @@ namespace RPCAuthenticationSystem.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var user = from m in _context.User select m;
             if (!ModelState.IsValid)
             {
+                Message = null;
                 return Page();
             }
-            var dbEntry = _context.User.FirstOrDefault(acc => acc.Username == SearchUsername);
-            return RedirectToPage("Users/Index");
+            var TotalUsers = from m in _context.User select m;
+            var user = TotalUsers.Where(s => s.Username.Equals(Username));
+            User = await user.ToListAsync();
+            if (User.Count == 1)
+            {
+                if (User.ElementAt(0).Password.Equals(Password))
+                {
+                    return RedirectToPage("Users");
+                }
+                Message = "La contraseña no coincide a este usuario";
+            }
+            else
+            {
+                Message = "No se han encontrado usuarios con este username";
+            }
+            return Page();
         }
     }
 }
