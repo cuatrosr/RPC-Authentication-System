@@ -49,7 +49,7 @@ namespace RPCAuthenticationSystem.Pages
             {
                 if (User.ElementAt(0).Password.Equals(Password))
                 {
-                    return RedirectToPage("Users");
+                    return RedirectToPage("Users/Index");
                 }
                 Message = "La contraseña no coincide a este usuario";
             }
